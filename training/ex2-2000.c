@@ -24,9 +24,9 @@ time_t calculationStart;
     It's overly complicated for being written in C, and not making use of libs that it should be using
     It doesn't follow the requirements, and prints the answer in between inputs
     I only know it works for sure with the following examples:
-    HELL1235670WO1234591561580
-    PROGRAMMING037124670C123567123567156
-    AND MORE037124903735790278134573712467045612356735792781245612467278
+    HELL1235670WO1234591561580                                                      --Decoding time:0.001
+    PROGRAMMING037124670C123567123567156                                            --Decoding time:0.001
+    AND MORE037124903735790278134573712467045612356735792781245612467278            --Decoding time:0.001
     And that is because the hashing algorithm is bad, and it can hit a valid number while searching for a non valid number to validate the zero as a space or a code
     It also means that it should work fine for all valid inputs as long as no zero is used for spacing purposes
 */
