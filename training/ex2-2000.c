@@ -9,10 +9,10 @@
 
 //The prototypes for each used functions, we discuss more about then on each of their definitions
 int simpleHash(char * number);
-int decode(char * line, int tam);
-int Exercicio();
+void decode(char * line, int tam);
+void Exercicio();
 
-time_t calculationStart;
+double calcTime;
 
 /*
     Problem 02 of the 2000 
@@ -29,6 +29,12 @@ time_t calculationStart;
     AND MORE037124903735790278134573712467045612356735792781245612467278            --Decoding time:0.001
     And that is because the hashing algorithm is bad, and it can hit a valid number while searching for a non valid number to validate the zero as a space or a code
     It also means that it should work fine for all valid inputs as long as no zero is used for spacing purposes
+*/
+
+/*
+    Timing information:
+    If we input 10 times 'AND MORE037124903735790278134573712467045612356735792781245612467278' so that it can be decoded, the program, running on REPLIT 
+    returns a total Calculation time of 0.000446 and a total Program time of 0.000997
 */
 
 
@@ -69,14 +75,12 @@ int main(void) //Entry point
     #pragma endregion
     //We run the program itself
     Exercicio();
-
-    double calculationTime = (clock() - calculationStart)/(double)CLOCKS_PER_SEC;
-    double TotalProgramTime = (clock() - BegunTime)/(double)CLOCKS_PER_SEC;
-    printf("\n\nCalculation done in: %g\nProgram executed in: %g", calculationTime, TotalProgramTime);
+    double TotalProgramTime = difftime(clock(), BegunTime)/(double)CLOCKS_PER_SEC;
+    printf("\n\nCalculation done in: %lf\nProgram executed in: %lf", calcTime, TotalProgramTime);
     return 1;
 }
 
-int Exercicio()
+void Exercicio()
 {
     int nPhrases = 0;               //Number of phrases(lines) to be decoded
     char temp[NUMBERSIZE];          //Temp char to store the number of nPhrases momentarily
@@ -102,9 +106,10 @@ int Exercicio()
             tam += tTam;
         }
         while (tTam == CHUNKSIZE - 1 && (buffer[CHUNKSIZE - 2] != '\n' ));
-        calculationStart = clock();
+        clock_t start = clock();
         //Call decode with the line array we just created
         decode(line, tam);
+        calcTime += difftime(clock(), start)/(double)CLOCKS_PER_SEC;
 
         //After it's done, we free the line array, so no memory leaks occurs
         free(line);
@@ -180,7 +185,7 @@ int simpleHash(char * number)
     //In the end this function can return a unique key for every VALID number while staying in a smaller interval ~(0, 99)
 }
 
-int decode(char * line, int tam)
+void decode(char * line, int tam)
 {
     char * decodedString = (char *) malloc(sizeof(char)* tam); //The size of the decoded string can not be bigger than the original string, so we can take this shortcut
     int lastChar = 0;           //Were on the decoded string we currently are
